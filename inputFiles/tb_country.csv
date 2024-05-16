@@ -1,0 +1,251 @@
+ctry_code,ctry_name,ctry_number
+AF,Afeganistão,4
+ZA,África do Sul,710
+AL,Albânia,8
+DE,Alemanha,276
+AD,Andorra,20
+AO,Angola,24
+AI,Anguila,660
+AQ,Antártica,10
+AG,Antígua e Barbuda,28
+SA,Arábia Saudita,682
+DZ,Argélia,12
+AR,Argentina,32
+AM,Armênia,51
+AW,Aruba,533
+AU,Austrália,36
+AT,Áustria,40
+AZ,Azerbaijão,31
+BS,Bahamas,44
+BH,Bahrein,48
+BD,Bangladesh,50
+BB,Barbados,52
+BY,Belarus,112
+BE,Bélgica,56
+BZ,Belize,84
+BJ,Benin,204
+BM,Bermudas,60
+BO,Bolívia,68
+BA,Bósnia e Herzegovina,70
+BW,Botsuana,72
+BR,Brasil,76
+BN,Brunei,96
+BG,Bulgária,100
+BF,Burkina Faso,854
+BI,Burundi,108
+BT,Butão,64
+CV,Cabo Verde,132
+CM,Camarões,120
+KH,Camboja,116
+CA,Canadá,124
+KZ,Cazaquistão,398
+TD,Chade,148
+CL,Chile,152
+CN,China,156
+CY,Chipre,196
+VA,Cidade do Vaticano,336
+SG,Cingapura,702
+CO,Colômbia,170
+KM,Comores,174
+KP,Coréia do Norte,408
+KR,Coréia do Sul,410
+CI,Costa do Marfim,384
+CR,Costa Rica,188
+HR,Croácia,191
+CU,Cuba,192
+CW,Curaçao,531
+DK,Dinamarca,208
+DJ,Djibouti,262
+DM,Dominica,212
+EG,Egito,818
+SV,El Salvador,222
+AE,Emirados Árabes Unidos,784
+EC,Equador,218
+ER,Eritreia,232
+SK,Eslováquia,703
+SI,Eslovênia,705
+ES,Espanha,724
+FM,Estados Federados da Micronésia,583
+US,Estados Unidos da América,840
+EE,Estônia,233
+SZ,Eswatini,748
+ET,Etiópia,231
+FJ,Fiji,242
+PH,Filipinas,608
+FI,Finlândia,246
+FR,França,250
+GA,Gabão,266
+GM,Gâmbia,270
+GH,Gana,288
+GE,Geórgia,268
+GS,Geórgia do Sul e as Ilhas Sandwich do Sul,239
+GI,Gibraltar,292
+GR,Grécia,300
+GD,Grenada,308
+GL,Groenlândia,304
+GP,Guadalupe,312
+GU,Guam,316
+GT,Guatemala,320
+GG,Guernsey,831
+GY,Guiana,328
+GF,Guiana Francesa,254
+GN,Guiné,324
+GQ,Guiné Equatorial,226
+GW,Guiné-Bissau,624
+HT,Haiti,332
+HN,Honduras,340
+HK,Hong Kong,344
+HU,Hungria,348
+YE,Iêmen,887
+BV,Ilha Bouvet,74
+RE,Ilha da Reunião,638
+IM,Ilha de Man,833
+CX,Ilha de Natal,162
+NF,Ilha Norfolk,574
+AX,Ilhas Åland,248
+KY,Ilhas Cayman,136
+CC,Ilhas Cocos,166
+CK,Ilhas Cook,184
+FO,Ilhas Faroe,234
+FK,Ilhas Malvinas,238
+MP,Ilhas Marianas do Norte,580
+MH,Ilhas Marshall,584
+UM,Ilhas Menores Distantes dos Estados Unidos,581
+PN,Ilhas Pitcairn,612
+SB,Ilhas Salomão,90
+TC,Ilhas Turcas e Caicos,796
+VG,Ilhas Virgens (Reino Unido),92
+VI,Ilhas Virgens dos Estados Unidos,850
+IN,Índia,356
+ID,Indonésia,360
+IR,Irã,364
+IQ,Iraque,368
+IE,Irlanda,372
+IS,Islândia,352
+IL,Israel,376
+IT,Itália,380
+JM,Jamaica,388
+JP,Japão,392
+JE,Jersey,832
+JO,Jordânia,400
+KI,Kiribati,296
+XK,Kosovo,412
+KW,Kuwait,414
+LA,Laos,418
+LS,Lesotho,426
+LV,Letônia,428
+LB,Líbano,422
+LR,Libéria,430
+LY,Líbia,434
+LI,Liechtenstein,438
+LT,Lituânia,440
+LU,Luxemburgo,442
+MO,Macau,446
+MG,Madagascar,450
+MY,Malásia,458
+MW,Malauí,454
+MV,Maldivas,462
+ML,Mali,466
+MT,Malta,470
+MA,Marrocos,504
+MQ,Martinica,474
+MU,Maurício,480
+MR,Mauritânia,478
+YT,Mayotte,175
+MX,México,484
+MM,Mianmar,104
+MZ,Moçambique,508
+MD,Moldávia,498
+MN,Mongólia,496
+ME,Montenegro,499
+MS,Montserrat,500
+NA,Namíbia,516
+NR,Nauru,520
+NP,Nepal,524
+NI,Nicarágua,558
+NE,Níger,562
+NG,Nigéria,566
+NU,Niue,570
+MK,Norte da Macedônia,807
+NO,Noruega,578
+NC,Nova Caledônia,540
+NZ,Nova Zelândia,554
+OM,Omã,512
+HM,Ouvido e Ilhas McDonald,334
+NL,Países Baixos,528
+BQ,Países Baixos Caribenhos,535
+PW,Palau,585
+PS,Palestina,275
+PA,Panamá,591
+PG,Papua Nova Guiné,598
+PK,Paquistão,586
+PY,Paraguai,600
+PE,Peru,604
+PF,Polinésia Francesa,258
+PL,Polônia,616
+PR,Porto Rico,630
+PT,Portugal,620
+MC,Principado de Mônaco,492
+QA,Qatar,634
+KE,Quênia,404
+KG,Quirguizistão,417
+GB,Reino Unido,826
+CF,República Centro-Africana,140
+CD,República Democrática do Congo,180
+CG,República do Congo,178
+DO,República Dominicana,214
+RO,Romênia,642
+RW,Ruanda,646
+RU,Rússia,643
+EH,Saara Ocidental,732
+WS,Samoa,882
+AS,Samoa Americana,16
+SH,"Santa Helena, Ascensão e Tristão da Cunha",654
+LC,Santa Lúcia,662
+BL,Santo Bartolomeu,652
+SM,São Marino,674
+MF,São Martinho,663
+PM,São Pedro e Miquelon,666
+ST,São Tomé e Príncipe,678
+VC,São Vicente e as Granadinas,670
+SN,Senegal,686
+SL,Serra Leoa,694
+RS,Sérvia,688
+SC,Seychelles,690
+SX,Sint Maarten,534
+SY,Síria,760
+SO,Somália,706
+LK,Sri Lanka,144
+KN,St. Kitts e Nevis,659
+SD,Sudão,729
+SS,Sudão do Sul,728
+SE,Suécia,752
+CH,Suíça,756
+SR,Suriname,740
+SJ,Svalbard e Jan Mayen,744
+TH,Tailândia,764
+TW,Taiwan,158
+TJ,Tajiquistão,762
+TZ,Tanzânia,834
+CZ,Tcheca,203
+IO,Território Britânico do Oceano Índico,86
+TF,Territórios Franceses do Sul e Antártico,260
+TL,Timor Leste,626
+TG,Togo,768
+TK,Tokelau,772
+TO,Tonga,776
+TT,Trinidad e Tobago,780
+TN,Tunísia,788
+TM,Turcomenistão,795
+TR,Turquia,792
+TV,Tuvalu,798
+UA,Ucrânia,804
+UG,Uganda,800
+UY,Uruguai,858
+UZ,Uzbequistão,860
+VU,Vanuatu,548
+VE,Venezuela,862
+VN,Vietnã,704
+WF,Wallis e Futuna,876
+ZM,Zâmbia,894
+ZW,Zimbábue,716
