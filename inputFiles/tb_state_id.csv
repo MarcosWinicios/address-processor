@@ -1,0 +1,124 @@
+stte_id,stte_code,stte_name,ctry_code
+1,AS,Aguascaliente,MX
+2,BC,Baja California,MX
+3,BS,Baja California Sur,MX
+4,CC,Campeche,MX
+5,CL,Coahuila Modificación,MX
+6,CM,Colima,MX
+7,CS,Chiapas,MX
+8,CH,Chihuahua,MX
+9,DF,Ciudad De México,MX
+10,DG,Durango,MX
+11,GT,Guanajuato,MX
+12,GR,Guerrero,MX
+13,HG,Hidalgo,MX
+14,JC,Jalisco,MX
+15,MC,Estado De Mexico,MX
+16,MN,Michoacan,MX
+17,MS,Morelos,MX
+18,NT,Nayarit,MX
+19,NL,Nuevo Leon,MX
+20,OC,Oaxaca,MX
+21,PL,Puebla,MX
+22,QT,Queretaro,MX
+23,QR,Quintana Roo,MX
+24,SP,San Luis Potosi,MX
+25,SL,Sinaloa,MX
+26,SR,Sonora,MX
+27,TC,Tabasco,MX
+28,TS,Tamaulipas,MX
+29,TL,Tlaxcala,MX
+30,VZ,Tlaxcala,MX
+31,YN,Yucatan,MX
+32,ZS,Zacatecas,MX
+33,AL,Alabama,US
+34,AK,Alaska,US
+35,AZ,Arizona,US
+36,AR,Arkansas,US
+37,CA,California,US
+38,CO,Colorado,US
+39,CT,Connecticut,US
+40,DE,Delaware,US
+41,DC,District Of Columbia,US
+42,FL,Florida,US
+43,GA,Georgia,US
+44,HI,Hawaii,US
+45,ID,Idaho,US
+46,IL,Illinois,US
+47,IN,Indiana,US
+48,IA,Iowa,US
+49,KS,Kansas,US
+50,KY,Kentucky,US
+51,LA,Louisiana,US
+52,ME,Maine,US
+53,MT,Montana,US
+54,NE,Nebraska,US
+55,NV,Nevada,US
+56,NH,New Hampshire,US
+57,NJ,New Jersey,US
+58,NM,New Mexico,US
+59,NY,New York,US
+60,NC,North Carolina,US
+61,ND,North Dakota,US
+62,OH,Ohio,US
+63,OK,Oklahoma,US
+64,OR,Oregon,US
+65,MD,Maryland,US
+66,MA,Massachusetts,US
+67,MI,Michigan,US
+68,MN,Minnesota,US
+69,MS,Mississippi,US
+70,MO,Missouri,US
+71,PA,Pennsylvania,US
+72,RI,Rhode Island,US
+73,SC,South Carolina,US
+74,SD,South Dakota,US
+75,TN,Tennessee,US
+76,TX,Texas,US
+77,UT,Utah,US
+78,VT,Vermont,US
+79,VA,Virginia,US
+80,WA,Washington,US
+81,WV,West Virginia,US
+82,WI,Wisconsin,US
+83,WY,Wyoming,US
+84,AB,Alberta,CA
+85,BC,British Columbia,CA
+86,MB,Manitoba,CA
+87,NB,New Brunswick,CA
+88,NL,Newfoundland And Labrador,CA
+89,NT,Northwest Territories,CA
+90,NS,Nova Scotia,CA
+91,NU,Nunavut,CA
+92,ON,Ontario,CA
+93,PE,Prince Edward Island,CA
+94,QC,Quebec,CA
+95,SK,Saskatchewan,CA
+96,YT,Yukon,CA
+97,SP,São Paulo,BR
+98,PR,Paraná,BR
+99,SC,Santa Catarina,BR
+100,RS,Rio Grande Do Sul,BR
+101,MS,Mato Grosso Do Sul,BR
+102,RO,Rondônia,BR
+103,AC,Acre,BR
+104,AM,Amazonas,BR
+105,RR,Roraima,BR
+106,PA,Pará,BR
+107,AP,Amapá,BR
+108,TO,Tocantins,BR
+109,MA,Maranhão,BR
+110,RN,Rio Grande Do Norte,BR
+111,PB,Paraíba,BR
+112,PE,Pernambuco,BR
+113,AL,Alagoas,BR
+114,SE,Sergipe,BR
+115,BA,Bahia,BR
+116,MG,Minas Gerais,BR
+117,RJ,Rio De Janeiro,BR
+118,MT,Mato Grosso,BR
+119,GO,Goiás,BR
+120,DF,Distrito Federal,BR
+121,PI,Piauí,BR
+122,CE,Ceará,BR
+123,ES,Espírito Santo,BR
