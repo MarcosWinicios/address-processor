@@ -1,6 +1,7 @@
 package addressprocessor.service;
 
 import addressprocessor.dto.input.CityCoreDTO;
+import addressprocessor.dto.input.CityExternalInputDTO;
 import addressprocessor.dto.input.StateInputDTO;
 import addressprocessor.model.City;
 import addressprocessor.model.State;
@@ -31,6 +32,16 @@ public class CityService {
         return cityList;
     }
 
+    public List<CityExternalInputDTO> csvToCityExternalObject(List<String[]> cityLines) {
+        List<CityExternalInputDTO> result = new ArrayList<>();
+        for(int i = 1; i < cityLines.size(); i++){
+            CityExternalInputDTO obj = new CityExternalInputDTO(cityLines.get(i));
+            result.add(obj);
+        }
+        return result;
+    }
+
+
     public List<String[]> readCsvFile(String fileName) {
         return CsvUtil.readCsvFile(fileName);
     }
@@ -47,6 +58,14 @@ public class CityService {
     public void printCityList(List<City> cityList) {
         int count = 1;
         for (City city : cityList) {
+            System.out.println("[ " + count + "] = " + city.toString());
+            count++;
+        }
+    }
+
+    public void printCityExternalObj(List<CityExternalInputDTO> cityExternalList){
+        int count = 1;
+        for (CityExternalInputDTO city : cityExternalList) {
             System.out.println("[ " + count + "] = " + city.toString());
             count++;
         }
@@ -123,6 +142,7 @@ public class CityService {
 
         return lines;
     }
+
 
 
 }
