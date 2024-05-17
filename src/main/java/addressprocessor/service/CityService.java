@@ -1,6 +1,7 @@
 package addressprocessor.service;
 
 import addressprocessor.dto.input.CityCoreDTO;
+import addressprocessor.dto.input.StateInputDTO;
 import addressprocessor.model.City;
 import addressprocessor.model.State;
 import addressprocessor.utils.CsvUtil;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CityService {
@@ -71,6 +73,29 @@ public class CityService {
         return cityList;
     }
 
+    public List<City> relateCitiesToStates(List<CityCoreDTO> cityCoreDTOList, List<StateInputDTO> stateInputDTOList) {
+        List<City> cityList = new ArrayList<>();
+
+        for (CityCoreDTO city : cityCoreDTOList){
+            var countryCode = city.getCountryCode();
+            Integer stateId = city.getStateId();
+
+            City newCity = new City();
+
+            for( StateInputDTO state : stateInputDTOList){
+                if(state.getCountryCode().equalsIgnoreCase(countryCode) && Objects.equals(state.getSequencial(), stateId)){
+
+                    newCity.setName(city.getName());
+                    newCity.setStateId(state.getId());
+                    newCity.setExternalCode(state.getSequencial());
+                }
+            }
+            cityList.add(newCity);
+        }
+
+        return cityList;
+    }
+
     public void generateCityListCSVFile(List<City> cityList) {
         String path = CsvUtil.getOutputBasePath();
         List<String[]> data = this.cityListToCsvLines(cityList);
@@ -89,5 +114,6 @@ public class CityService {
 
         return lines;
     }
+
 
 }
