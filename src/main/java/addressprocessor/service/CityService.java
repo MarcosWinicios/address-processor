@@ -76,14 +76,20 @@ public class CityService {
     public List<City> relateCitiesToStates(List<CityCoreDTO> cityCoreDTOList, List<StateInputDTO> stateInputDTOList) {
         List<City> cityList = new ArrayList<>();
 
-        for (CityCoreDTO city : cityCoreDTOList){
+        for (CityCoreDTO city : cityCoreDTOList) {
+
+            if (city.getName().equalsIgnoreCase("Urbano")) {
+                System.out.println("CITY AQUI: \n " + city.toString());
+            }
+
             var countryCode = city.getCountryCode();
             Integer stateId = city.getStateId();
 
             City newCity = new City();
 
-            for( StateInputDTO state : stateInputDTOList){
-                if(state.getCountryCode().equalsIgnoreCase(countryCode) && Objects.equals(state.getSequencial(), stateId)){
+            for (StateInputDTO state : stateInputDTOList) {
+
+                if (state.getCountryCode().equalsIgnoreCase(countryCode) && Objects.equals(state.getSequencial(), stateId)) {
 
                     newCity.setName(city.getName());
                     newCity.setStateId(state.getId());
@@ -108,6 +114,9 @@ public class CityService {
         String[] header = {"city_name", "stte_id"};
         lines.add(header);
         for (City city : cityList) {
+            if (city.getStateId() == null) {
+                System.out.println(city.toString());
+            }
             String[] newLine = {city.getName(), city.getStateId().toString()};
             lines.add(newLine);
         }

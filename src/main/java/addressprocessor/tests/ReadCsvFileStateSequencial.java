@@ -18,7 +18,7 @@ public class ReadCsvFileStateSequencial {
         var stateLines = stateService.readCsvFile(stateFileName);
         List<StateInputDTO> stateInputDTOList = stateService.csvToStateInputDTO(stateLines);
 
-        stateService.printStateInputDTOList(stateInputDTOList);
+//        stateService.printStateInputDTOList(stateInputDTOList);
 
         //--------------
 
@@ -31,7 +31,7 @@ public class ReadCsvFileStateSequencial {
         var cityCoreDTOList = cityService.csvToCityObject(cityLines);
         System.out.println("cityCoreListSize: " + cityCoreDTOList.size());
 
-        cityService.printCityCoreDTOList(cityCoreDTOList);
+//        cityService.printCityCoreDTOList(cityCoreDTOList);
 
         System.out.println("\n_______________________________________________\n");
 
@@ -39,10 +39,10 @@ public class ReadCsvFileStateSequencial {
         List<City> cityList =  cityService.relateCitiesToStates(cityCoreDTOList, stateInputDTOList);
 
         System.out.println("cityListSize: " + cityList.size());
-        cityService.printCityList(cityList);
+//        cityService.printCityList(cityList);
 
 
 
-//        cityService.generateCityListCSVFile(cityList);
+        cityService.generateCityListCSVFile(cityList);
     }
 }
