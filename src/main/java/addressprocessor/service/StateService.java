@@ -1,5 +1,6 @@
 package addressprocessor.service;
 
+import addressprocessor.dto.input.StateInputDTO;
 import addressprocessor.model.State;
 import addressprocessor.utils.CsvUtil;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class StateService {
         return stateList;
     }
 
+
     public void printStateList(List<State> stateList){
         stateList.forEach( state -> {
             System.out.println(state.toString());
@@ -45,4 +47,30 @@ public class StateService {
     public void prinCsv(List<String[]> lines){
         CsvUtil.printCsvLines(lines);
     }
+
+    public List<StateInputDTO> csvToStateInputDTO(List<String[]> stateLines) {
+        List<StateInputDTO> result = new ArrayList<>();
+
+        for(int i = 1; i < stateLines.size(); i++){
+            StateInputDTO newState = new StateInputDTO();
+            var currentState = stateLines.get(i);
+
+            newState.setSequencial(Integer.parseInt(currentState[0]));
+            newState.setId(Integer.parseInt(currentState[1]));
+            newState.setCode(currentState[2]);
+            newState.setName(currentState[3]);
+            newState.setCountryCode(currentState[4]);
+
+            result.add(newState);
+        }
+        return result;
+    }
+
+    public void printStateInputDTOList(List<StateInputDTO> stateList){
+        stateList.forEach( state -> {
+            System.out.println(state.toString());
+        });
+    }
+
+
 }
