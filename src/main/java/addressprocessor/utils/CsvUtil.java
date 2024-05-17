@@ -15,14 +15,23 @@ import java.util.Objects;
 @Component
 public class CsvUtil {
 
-    private static final String BASE_PATH = "inputFiles/";
+    private static final String INPUT_BASE_PATH = "inputFiles/";
+    private static final String OUTPUT_BASE_PATH = "outputFiles/";
+
+    public static String getInputBasePath(){
+        return INPUT_BASE_PATH;
+    }
+
+    public static String getOutputBasePath(){
+        return OUTPUT_BASE_PATH;
+    }
 
     /**
      * @param data          Informações que irão compor o conteúdo do arquivo CSV
      * @param directoryPath Diretório alvo onde o arquivo será salvo
      * @param fileName      Nome do arquivo a ser gerado
      */
-    private static String generateCsvFile(List<String[]> data, String directoryPath, String fileName) {
+    public static String generateCsvFile(List<String[]> data, String directoryPath, String fileName) {
 
         try {
             String fileFullName = directoryPath + fileName + ".csv";
@@ -56,7 +65,7 @@ public class CsvUtil {
 
     public static List<String[]> readCsvFile(String fileName) {
 
-        String pathName = BASE_PATH + fileName;
+        String pathName = INPUT_BASE_PATH + fileName;
 
         try (CSVReader reader = new CSVReader(new FileReader(pathName))) {
 
