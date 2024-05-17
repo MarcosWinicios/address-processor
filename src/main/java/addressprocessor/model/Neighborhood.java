@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Neighborhood {
 
-    Integer id;
-    String name;
-    String externalCode;
-    Integer cityId;
+    private Integer id;
+    private String name;
+    private String externalCode;
+    private Integer cityId;
 
     @Override
     public String toString() {
