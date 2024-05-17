@@ -19,12 +19,15 @@ public class City implements Serializable {
 
     private Integer stateId;
 
+    private Integer externalCode;
+
     @Override
     public String toString() {
         return "City{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", stateId=" + stateId +
+                ", externalCode=" + externalCode +
                 '}';
     }
 }
