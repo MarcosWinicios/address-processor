@@ -35,9 +35,18 @@ public class NeighborhoodService {
     }
 
     public void printNeighborhoodExternalInputDTOObj(List<NeighborhoodExternalInputDTO> neighborhoodExternalInputDTO){
-        System.out.println("\nPrintando dados dos bairros");
+        System.out.println("\nPrintando dados dos bairros- ENTRADA");
         int count = 1;
         for (NeighborhoodExternalInputDTO neighborhood : neighborhoodExternalInputDTO) {
+            System.out.println("[ " + count + "] = " + neighborhood.toString());
+            count++;
+        }
+    }
+    public void printNeighborhoodList(List<Neighborhood> neighborhoodList){
+        System.out.println("\n PRINTANDO LISTA DE BAIRRROS - SAÍDA\n");
+
+        int count = 1;
+        for (Neighborhood neighborhood : neighborhoodList) {
             System.out.println("[ " + count + "] = " + neighborhood.toString());
             count++;
         }
