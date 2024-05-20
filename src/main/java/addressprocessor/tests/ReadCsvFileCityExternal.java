@@ -56,9 +56,12 @@ public class ReadCsvFileCityExternal {
         //--------------------
         List<Neighborhood> neighborhoodList = neighborhoodService.relateNeighborhoodToCities(cityExternalInputDTOList, neighborhoodExternalInputDTOList);
 
+        System.out.println("neighborhoodListSize: " + neighborhoodList.size());
+        
+        neighborhoodService.printNeighborhoodList(neighborhoodList);
 
-        System.out.println("cityListSize: " + cityList.size());
-//        cityService.printCityList(cityList);
+
+
 
 
 
