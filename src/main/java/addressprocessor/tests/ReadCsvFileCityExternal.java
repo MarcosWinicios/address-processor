@@ -4,6 +4,7 @@ import addressprocessor.dto.input.CityExternalInputDTO;
 import addressprocessor.dto.input.NeighborhoodExternalInputDTO;
 import addressprocessor.dto.input.StateInputDTO;
 import addressprocessor.model.City;
+import addressprocessor.model.Neighborhood;
 import addressprocessor.service.CityService;
 import addressprocessor.service.NeighborhoodService;
 import addressprocessor.service.StateService;
@@ -51,14 +52,15 @@ public class ReadCsvFileCityExternal {
         neighborhoodService.printNeighborhoodExternalInputDTOObj(neighborhoodExternalInputDTOList);
 
         System.out.println("FIM");
-/*
+
         //--------------------
-        List<City> cityList =  cityService.relateCitiesToStates(cityExternalInputDTOList, stateInputDTOList);
+        List<Neighborhood> neighborhoodList = neighborhoodService.relateNeighborhoodToCities(cityExternalInputDTOList, neighborhoodExternalInputDTOList);
+
 
         System.out.println("cityListSize: " + cityList.size());
 //        cityService.printCityList(cityList);
 
-*/
+
 
 //        cityService.generateCityListCSVFile(cityList);
     }
