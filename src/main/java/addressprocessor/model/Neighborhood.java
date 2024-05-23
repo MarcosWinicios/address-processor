@@ -13,6 +13,12 @@ public class Neighborhood {
     private String name;
     private String externalCode;
     private Integer cityId;
+    
+    public Neighborhood(String[] csvLine) {
+    	this.name = csvLine[0];
+    	this.externalCode =csvLine[1];
+    	this.cityId =Integer.parseInt(csvLine[2]);
+    }
 
     @Override
     public String toString() {
@@ -23,4 +29,6 @@ public class Neighborhood {
                 ", cityId=" + cityId +
                 '}';
     }
+    
+    
 }

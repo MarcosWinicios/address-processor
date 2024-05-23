@@ -18,12 +18,21 @@ public class NeighborhoodExternalInputDTO {
     private String countryCode;
 
 
+//    public NeighborhoodExternalInputDTO(String[] line) {
+//        this.name = line[4];
+//        this.externalCode = line[3];
+//        this.stateExternalCode = Integer.parseInt(line[1]);
+//        this.cityExternalCode = Integer.parseInt(line[2]);
+//        this.countryCode = line[8];
+//
+//    }
+    
     public NeighborhoodExternalInputDTO(String[] line) {
-        this.name = line[4];
-        this.externalCode = line[3];
-        this.stateExternalCode = Integer.parseInt(line[1]);
-        this.cityExternalCode = Integer.parseInt(line[2]);
-        this.countryCode = line[8];
+        this.name = line[3];
+        this.externalCode = line[2];
+        this.stateExternalCode = Integer.parseInt(line[0]);
+        this.cityExternalCode = Integer.parseInt(line[1]);
+        this.countryCode = line[4];
 
     }
 
