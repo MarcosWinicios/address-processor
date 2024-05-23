@@ -58,7 +58,7 @@ public class CsvUtil {
             for (String[] line : data) {
                 for (int i = 0; i < line.length; i++) {
                     if (line[i] != null) {
-                        line[i] = line[i].replace("\"", "");  // Remove aspas duplas
+                    	line[i] = line[i].replace("\"", "\"\"");  // Remove aspas duplas                       
                     }
                 }
                 cw.writeNext(line);
