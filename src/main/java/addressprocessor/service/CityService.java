@@ -37,6 +37,7 @@ public class CityService {
         for(int i = 1; i < cityLines.size(); i++){
             CityExternalInputDTO obj = new CityExternalInputDTO(cityLines.get(i));
             result.add(obj);
+            obj=null;
         }
         return result;
     }
