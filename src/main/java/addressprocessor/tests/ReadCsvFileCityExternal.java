@@ -14,26 +14,17 @@ import java.util.List;
 public class ReadCsvFileCityExternal {
 
     public static void main(String[] args) {
-        /*
-        // Lendo arquivo com os estados
-        String stateFileName = "tb_city_external.csv";
-        StateService stateService = new StateService();
 
-        var stateLines = stateService.readCsvFile(stateFileName);
-        List<StateInputDTO> stateInputDTOList = stateService.csvToStateInputDTO(stateLines);
-
-//        stateService.printStateInputDTOList(stateInputDTOList);
-        */
-        //--------------
-
-        System.out.println("\n_______________________________________________\n");
         System.out.println("Lendo arquivo com as cidades\n");
-        //Lendo arquivo com as cidades
+
         String cityFileName = "tb_city_external.csv";
         CityService cityService = new CityService();
 
         var cityLines = cityService.readCsvFile(cityFileName);
         List<CityExternalInputDTO> cityExternalInputDTOList = cityService.csvToCityExternalObject(cityLines);
+        cityLines.clear();
+        cityLines = null;
+        System.gc();
 
         System.out.println("cityExternalInputDTOList: " + cityExternalInputDTOList.size());
 
@@ -41,30 +32,40 @@ public class ReadCsvFileCityExternal {
 
         System.out.println("\n_______________________________________________\n");
         System.out.println("Lendo arquivo com os bairros\n");
-        String neighborhoodName = "tb_neighborhood_external.csv";
+        String neighborhoodName = "input_neighborhoodNotFoundList.csv";
 
         NeighborhoodService neighborhoodService = new NeighborhoodService();
         var neighborhoodLines = neighborhoodService.readCsvFile(neighborhoodName);
+        
+        System.out.println("Linhas dos bairros: " + neighborhoodLines.size());
+        
+        System.out.println(neighborhoodLines.get(1)[0]);
+//        System.out.println(neighborhoodLines.get(1)[1]);
+//        System.out.println(neighborhoodLines.get(1)[2]);
+//        System.out.println(neighborhoodLines.get(1)[3]);
+        
         List<NeighborhoodExternalInputDTO> neighborhoodExternalInputDTOList = neighborhoodService.csvToNeighborhoodExternalObject(neighborhoodLines);
+        neighborhoodLines.clear();
+        neighborhoodLines = null;
+        System.gc();
 
         System.out.println("neighborhoodExternalInputDTO: " + neighborhoodExternalInputDTOList.size());
 
-        neighborhoodService.printNeighborhoodExternalInputDTOObj(neighborhoodExternalInputDTOList);
+//        neighborhoodService.printNeighborhoodExternalInputDTOObj(neighborhoodExternalInputDTOList);
+
+
+        //--------------------
+//        List<Neighborhood> neighborhoodList = neighborhoodService.relateNeighborhoodToCities(cityExternalInputDTOList, neighborhoodExternalInputDTOList);
+
+        List<Neighborhood> neighborhoodList = neighborhoodService.relateNeighborhoodToCitiesPagination(cityExternalInputDTOList, neighborhoodExternalInputDTOList);
+
+        System.gc();
+        System.out.println("neighborhoodListSize: " + neighborhoodList.size());
+
+//        neighborhoodService.printNeighborhoodList(neighborhoodList);
 
         System.out.println("FIM");
 
-        //--------------------
-        List<Neighborhood> neighborhoodList = neighborhoodService.relateNeighborhoodToCities(cityExternalInputDTOList, neighborhoodExternalInputDTOList);
-
-        System.out.println("neighborhoodListSize: " + neighborhoodList.size());
-        
-        neighborhoodService.printNeighborhoodList(neighborhoodList);
-
-
-
-
-
-
-//        cityService.generateCityListCSVFile(cityList);
+        neighborhoodService.generateNeighborhoodListCSVFile(neighborhoodList);
     }
 }
