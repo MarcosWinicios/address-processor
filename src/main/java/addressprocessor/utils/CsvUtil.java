@@ -48,9 +48,23 @@ public class CsvUtil {
             }
 
             FileWriter fw = new FileWriter(fileFullName);
-            CSVWriter cw = new CSVWriter(fw);
+            CSVWriter cw = new CSVWriter(fw,
+            		';',//Delimitador
+            		'\'',//Caractere de aspas simples
+            		CSVWriter.NO_ESCAPE_CHARACTER,
+            		CSVWriter.DEFAULT_LINE_END);
+            
+         // Processar os dados para remover aspas duplas
+            for (String[] line : data) {
+                for (int i = 0; i < line.length; i++) {
+                    if (line[i] != null) {
+                        line[i] = line[i].replace("\"", "");  // Remove aspas duplas
+                    }
+                }
+                cw.writeNext(line);
+            }
 
-            cw.writeAll(data);
+//            cw.writeAll(data);
 
             System.err.println("\nArquivo CSV gerado com sucesso em: " + file.getAbsolutePath() + "\n");
 
@@ -64,6 +78,20 @@ public class CsvUtil {
     }
 
     public static List<String[]> readCsvFile(String fileName) {
+
+        String pathName = INPUT_BASE_PATH + fileName;
+
+        try (CSVReader reader = new CSVReader(new FileReader(pathName))) {
+
+            List<String[]> lines = reader.readAll();
+            return lines;
+        } catch (IOException | CsvException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<String[]> readCsvFileWithFilter(String fileName) {
 
         String pathName = INPUT_BASE_PATH + fileName;
 
