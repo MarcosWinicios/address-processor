@@ -2,11 +2,11 @@ package addressprocessor.tests;
 
 import java.util.List;
 
-import addressprocessor.dto.input.CityExternalInputDTO;
 import addressprocessor.dto.input.NeighborhoodExternalInputDTO;
-import addressprocessor.model.Neighborhood;
-import addressprocessor.service.CityService;
+import addressprocessor.dto.input.NeighborhoodInternalDTO;
+import addressprocessor.model.Zipcode;
 import addressprocessor.service.NeighborhoodService;
+import addressprocessor.service.ZipcodeService;
 
 public class RelateNeighborhoodWithZipCode {
 	
@@ -14,31 +14,29 @@ public class RelateNeighborhoodWithZipCode {
 
     public static void main(String[] args) {
 
-        System.out.println("Lendo arquivo com as cidades\n");
+        System.out.println("Lendo arquivo com bairros INTERNOS\n");
+        NeighborhoodService neighborhoodService = new NeighborhoodService(MEMORY_COUNT);
 
-        String cityFileName = "neighborhood_relation.csv";
-        CityService cityService = new CityService(MEMORY_COUNT);
+        String neighborhoodInternalFileName = "new_neighborhood_relation.csv";
 
-        var cityLines = cityService.readCsvFile(cityFileName);
-        List<CityExternalInputDTO> cityExternalInputDTOList = cityService.csvToCityExternalObject(cityLines);
-        cityLines.clear();
-        cityLines = null;
+        List<String[]> neighborhoodInternalLines = neighborhoodService.readCsvFile(neighborhoodInternalFileName);
+        List<NeighborhoodInternalDTO> neighborhoodInternalDTOList = neighborhoodService.csvToNeighborhoodInternalDTO(neighborhoodInternalLines);
+
+        neighborhoodInternalLines.clear();
+        neighborhoodInternalLines = null;
         System.gc();
 
-        System.out.println("cityExternalInputDTOList: " + cityExternalInputDTOList.size());
+        System.out.println("neighborhoodInternalDTOList: " + neighborhoodInternalDTOList.size());
 
 //        cityService.printCityExternalObj(cityExternalInputDTOList);
 
         System.out.println("\n_______________________________________________\n");
-        System.out.println("Lendo arquivo com os bairros\n");
+        System.out.println("Lendo arquivo com os bairros EXTERNOS\n");
         String neighborhoodName = "input_tb_neighborhood_external.csv";
 
-        NeighborhoodService neighborhoodService = new NeighborhoodService(MEMORY_COUNT);
         var neighborhoodLines = neighborhoodService.readCsvFile(neighborhoodName);
         
-        System.out.println("Linhas dos bairros: " + neighborhoodLines.size());
-        
-
+        System.out.println("Linhas dos bairros EXTERNOS: " + neighborhoodLines.size());
         
         List<NeighborhoodExternalInputDTO> neighborhoodExternalInputDTOList = neighborhoodService.csvToNeighborhoodExternalObject(neighborhoodLines);
         neighborhoodLines.clear();
@@ -51,19 +49,20 @@ public class RelateNeighborhoodWithZipCode {
 
 
         //--------------------
-//        List<Neighborhood> neighborhoodList = neighborhoodService.relateNeighborhoodToCities(cityExternalInputDTOList, neighborhoodExternalInputDTOList);
 
-        List<Neighborhood> neighborhoodList = neighborhoodService.relateNeighborhoodToCitiesPagination(cityExternalInputDTOList, neighborhoodExternalInputDTOList);
+
+        ZipcodeService zipcodeService = new ZipcodeService(MEMORY_COUNT);
+        List<Zipcode> zipCodeList = zipcodeService.relateNeighborhoodToZipcode(neighborhoodInternalDTOList, neighborhoodExternalInputDTOList);
 
         System.gc();
-        System.out.println("neighborhoodListSize: " + neighborhoodList.size());
+        System.out.println("zipcodeListSize: " + zipCodeList.size());
 
 //        neighborhoodService.printNeighborhoodList(neighborhoodList);
 
 
-        neighborhoodService.generateNeighborhoodListCSVFile(neighborhoodList);
-        
-        neighborhoodService.generateNeighborhoodExternalListCSVFile(neighborhoodService.getExternalNeighborhoodNotFoundList());
+        zipcodeService.generateZipcodeCsvFile(zipCodeList);
+
+        neighborhoodService.generateNeighborhoodExternalListCSVFile(zipcodeService.getExternalNeighborhoodNotFoundList(), "new_output_zipcodeNotFoundList");
         System.out.println("FIM");
     }
 }

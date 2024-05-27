@@ -1,19 +1,21 @@
 package addressprocessor.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import addressprocessor.dto.input.CityExternalInputDTO;
 import addressprocessor.dto.input.NeighborhoodExternalInputDTO;
+import addressprocessor.dto.input.NeighborhoodInternalDTO;
 import addressprocessor.model.Neighborhood;
 import addressprocessor.utils.CsvUtil;
+import lombok.Getter;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class NeighborhoodService {
 	
-	private List<NeighborhoodExternalInputDTO> externalNeighborhoodNotFoundList;
+	@Getter
+    private List<NeighborhoodExternalInputDTO> externalNeighborhoodNotFoundList;
 
     private int memoryCount;
 
@@ -24,21 +26,23 @@ public class NeighborhoodService {
     public NeighborhoodService(int memoryCount) {
         this.memoryCount = memoryCount;
     }
-    
-    public List<NeighborhoodExternalInputDTO> getExternalNeighborhoodNotFoundList(){
-    	return this.externalNeighborhoodNotFoundList;
-    }
 
     public List<NeighborhoodExternalInputDTO> csvToNeighborhoodExternalObject(List<String[]> lines) {
         System.out.println("\nTransfomando CSV em objetos NeighborhoodExternalInputDTO");
         
         List<NeighborhoodExternalInputDTO> result = new ArrayList<>();
-       
+
+        int countClearMemory = 0;
         for (int i = 1; i < lines.size(); i++) {
         	System.gc();
-            NeighborhoodExternalInputDTO obj = new NeighborhoodExternalInputDTO(lines.get(i));
-            result.add(obj);
-            obj = null;
+
+            countClearMemory++;
+            if(countClearMemory == memoryCount){
+                System.gc();
+                countClearMemory = 0;
+            }
+
+            result.add(new NeighborhoodExternalInputDTO(lines.get(i)));
             
             if(i > 0){
             	lines.set(i -1 , null);
@@ -270,7 +274,7 @@ public class NeighborhoodService {
 		
 		System.out.println("Quantidade de Bairros não encontrados: " + neighborhoodNotFoundList.size());
 		
-        String[] header = {"DIM1","DIM2","DIM3","NOMBRE","CODIGOPAIS"};
+        String[] header = {"DIM1","DIM2","DIM3","NOMBRE","CODIGOPOSTAL", "CODIGOPAIS"};
         lines.add(header);
         
         for (NeighborhoodExternalInputDTO neighborhood : neighborhoodNotFoundList) {
@@ -278,8 +282,9 @@ public class NeighborhoodService {
             String[] newLine = {
             		neighborhood.getStateExternalCode().toString(),
             		neighborhood.getCityExternalCode().toString(),
-            		neighborhood.getExternalCode().toString(), 
+                    neighborhood.getExternalCode(),
             		neighborhood.getName(),
+                    neighborhood.getZipcode(),
             		neighborhood.getCountryCode()};
             lines.add(newLine);
         }
@@ -297,6 +302,31 @@ public class NeighborhoodService {
                 result.add(obj);
             }
         }
+        return result;
+    }
+
+    public List<NeighborhoodInternalDTO> csvToNeighborhoodInternalDTO(List<String[]> neighborhoodInternalLines) {
+        System.out.println("\nTransfomando CSV em objetos NeighborhoodInternalDTO");
+
+        List<NeighborhoodInternalDTO> result = new ArrayList<>();
+
+        int countClearMemory = 0;
+        for (int i = 1; i < neighborhoodInternalLines.size(); i++) {
+
+            countClearMemory++;
+            if(countClearMemory == memoryCount){
+                System.gc();
+                countClearMemory = 0;
+            }
+
+            result.add(new NeighborhoodInternalDTO(neighborhoodInternalLines.get(i)));
+
+            if(i > 0){
+                neighborhoodInternalLines.set(i -1 , null);
+            }
+        }
+
+        System.out.println("\nFinalizando transformação de CSV em objetos NeighborhoodInternalDTO");
         return result;
     }
 }
