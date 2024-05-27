@@ -9,17 +9,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CityCoreDTO {
 
-    private Integer stateId;
-
     private String name;
-
+    private Integer stateExternalId;
     private String countryCode;
+
+    public CityCoreDTO(String[] lines) {
+        this.name = lines[0];
+        this.stateExternalId = Integer.parseInt(lines[1]);
+        this.countryCode = lines[2];
+    }
 
     @Override
     public String toString() {
         return "CityCoreDTO{" +
-                "stateId=" + stateId +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
+                ", stateExternalId=" + stateExternalId +
                 ", countryCode='" + countryCode + '\'' +
                 '}';
     }

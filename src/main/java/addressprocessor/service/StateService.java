@@ -11,6 +11,16 @@ import java.util.List;
 @Service
 public class StateService {
 
+    private int memoryCount;
+    
+    public StateService() {
+    	this.memoryCount = 20;
+    }
+    
+    public StateService(int memoryCount) {
+    	this.memoryCount = memoryCount;
+    }
+
 
     public List<State> csvToStateObject(List<String[]> data) {
         List<State> stateList = new ArrayList<>();
@@ -35,6 +45,7 @@ public class StateService {
             System.out.println(state.toString());
         });
     }
+    
 
     public List<String[]> readCsvFile(String fileName){
         return CsvUtil.readCsvFile(fileName);
@@ -49,19 +60,23 @@ public class StateService {
     }
 
     public List<StateInputDTO> csvToStateInputDTO(List<String[]> stateLines) {
+
+        System.out.println("Transformando dados para StateInputDTO");
+
         List<StateInputDTO> result = new ArrayList<>();
 
+        int countClearMemory = 0;
         for(int i = 1; i < stateLines.size(); i++){
-            StateInputDTO newState = new StateInputDTO();
-            var currentState = stateLines.get(i);
+            countClearMemory++;
+            if(countClearMemory == memoryCount){
+                System.gc();
+                countClearMemory = 0;
+            }
+            result.add(new StateInputDTO(stateLines.get(i)));
 
-            newState.setSequencial(Integer.parseInt(currentState[0]));
-            newState.setId(Integer.parseInt(currentState[1]));
-            newState.setCode(currentState[2]);
-            newState.setName(currentState[3]);
-            newState.setCountryCode(currentState[4]);
-
-            result.add(newState);
+            if(i > 0){
+                stateLines.set(i -1 , null);
+            }
         }
         return result;
     }

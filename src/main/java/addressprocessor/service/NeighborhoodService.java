@@ -1,16 +1,33 @@
 package addressprocessor.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import addressprocessor.dto.input.CityExternalInputDTO;
 import addressprocessor.dto.input.NeighborhoodExternalInputDTO;
 import addressprocessor.model.Neighborhood;
 import addressprocessor.utils.CsvUtil;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class NeighborhoodService {
+	
+	private List<NeighborhoodExternalInputDTO> externalNeighborhoodNotFoundList;
+
+    private int memoryCount;
+
+    public NeighborhoodService() {
+        this.memoryCount = 20;
+    }
+
+    public NeighborhoodService(int memoryCount) {
+        this.memoryCount = memoryCount;
+    }
+    
+    public List<NeighborhoodExternalInputDTO> getExternalNeighborhoodNotFoundList(){
+    	return this.externalNeighborhoodNotFoundList;
+    }
 
     public List<NeighborhoodExternalInputDTO> csvToNeighborhoodExternalObject(List<String[]> lines) {
         System.out.println("\nTransfomando CSV em objetos NeighborhoodExternalInputDTO");
@@ -103,17 +120,25 @@ public class NeighborhoodService {
 
     public List<Neighborhood> relateNeighborhoodToCitiesPagination(List<CityExternalInputDTO> cityExternalInputDTOList, List<NeighborhoodExternalInputDTO> neighborhoodExternalInputDTOList) {
         List<Neighborhood> neighborhoodList = new ArrayList<>();
-
+        List<Neighborhood> neighborhoodListPage = new ArrayList<>();
+        externalNeighborhoodNotFoundList = new ArrayList<>();
+//        externalNeighborhoodNotFoundList.add(new NeighborhoodExternalInputDTO(1, "teste", "teste", 3, 1, "teste"));
 
         int count = 0;
         int countFilesGenerated = 1;
-        int neighborhoodExternalListSize = neighborhoodExternalInputDTOList.size();
-        int aux1 = neighborhoodExternalListSize / 15;
-
-        System.out.println("1° aux1: " + aux1);
+        int pageSize = neighborhoodExternalInputDTOList.size() / 2;
+        boolean isPresent = false;
+        
+        System.out.println("1° aux1: " + pageSize);
         try {
+            int countClearMemory = 0;
             for (int i = 0; i < neighborhoodExternalInputDTOList.size(); i++) {
-            	System.gc();
+
+                countClearMemory++;
+                if(countClearMemory == memoryCount){
+                    System.gc();
+                    countClearMemory = 0;
+                }
 
                 var countryCode = neighborhoodExternalInputDTOList.get(i).getCountryCode();
                 var stateExternalCode = neighborhoodExternalInputDTOList.get(i).getStateExternalCode();
@@ -123,53 +148,52 @@ public class NeighborhoodService {
 
                 for (CityExternalInputDTO cityExternalInputDTO : cityExternalInputDTOList) {
                     if (
-                            countryCode.equalsIgnoreCase(cityExternalInputDTO.getCountryCode())
-                                    && stateExternalCode.equals(cityExternalInputDTO.getStateExternalCode())
-                                    && cityExternalCode.equals(cityExternalInputDTO.getCityExternalCode())
+                            countryCode.equalsIgnoreCase(cityExternalInputDTO.getCountryCode()) &&
+                                    stateExternalCode.equals(cityExternalInputDTO.getStateExternalCode()) &&
+                                    cityExternalCode.equals(cityExternalInputDTO.getCityExternalCode())
                     ) {
+//                    	System.out.println("\nMATCH ENTRE A CIDADE: " + cityExternalInputDTO.getName() + " E O BAIRRO " + neighborhoodExternalInputDTOList.get(i).getName() + "\n");
+                    	
                         newNeighborhood.setName(neighborhoodExternalInputDTOList.get(i).getName());
                         newNeighborhood.setExternalCode(neighborhoodExternalInputDTOList.get(i).getExternalCode());
                         newNeighborhood.setCityId(cityExternalInputDTO.getId());
                         neighborhoodList.add(newNeighborhood);
-                        System.out.println("Adicionando novo bairro a cidade: " + cityExternalInputDTO.getName());
+                        neighborhoodListPage.add(newNeighborhood);
+                        
+                        isPresent = true;
+//                        System.out.println("Adicionando novo bairro a cidade: " + cityExternalInputDTO.getName());
                     }
-                    
                    
                 }
-                if (i == aux1) {
-                    this.generateNeighborhoodListCSVFile(neighborhoodList, "tb_neighborhood_" + countFilesGenerated);
+                
+                if(!isPresent) {
+                	externalNeighborhoodNotFoundList.add(neighborhoodExternalInputDTOList.get(i));
+                }
+                if (count == pageSize) {
+                    this.generateNeighborhoodListCSVFile(neighborhoodListPage, "new_tb_neighborhood_" + countFilesGenerated);
                     countFilesGenerated++;
 
-
                     System.out.println("Último item gerado na página " + countFilesGenerated + ": " + i);
+                    count = 0;
+                    neighborhoodListPage.clear();
                 }
-                count = i;
+                count++;
 
                 if(i > 0){
                     neighborhoodExternalInputDTOList.set(i -1 , null);
                 }
-
                 
+                isPresent = false;
             }
-            countFilesGenerated++;
-            this.generateNeighborhoodListCSVFile(neighborhoodList, "tb_neighborhood_" + countFilesGenerated);
-
-            System.out.println("Último item gerado na página " + countFilesGenerated + ": " + count);
-
             return neighborhoodList;
         }catch (OutOfMemoryError ex){
-            System.err.println("Quebrou");
-            System.out.println("countFilesGenerated: " + countFilesGenerated);
-            System.out.println("count: " + count);
-            System.out.println("aux1: " + aux1);
-            this.generateNeighborhoodListCSVFile(neighborhoodList, "tb_neighborhood_" + countFilesGenerated);
             throw new OutOfMemoryError(ex.getMessage());
         }
     }
 
 
     public void generateNeighborhoodListCSVFile(List<Neighborhood> neighborhoodList) {
-        this.generateNeighborhoodListCSVFile(neighborhoodList, "output_tb_neighborhood_not_found");
+        this.generateNeighborhoodListCSVFile(neighborhoodList, "output_new_tb_neighborhood_test");
     }
 
     public void generateNeighborhoodListCSVFile(List<Neighborhood> neighborhoodList, String fileName) {
@@ -230,7 +254,7 @@ public class NeighborhoodService {
     }
     
     public void generateNeighborhoodExternalListCSVFile(List<NeighborhoodExternalInputDTO> neighborhoodNotFoundList) {
-    	this.generateNeighborhoodExternalListCSVFile(neighborhoodNotFoundList, "output_neighborhoodNotFoundList");
+    	this.generateNeighborhoodExternalListCSVFile(neighborhoodNotFoundList, "new_output_neighborhoodNotFoundList");
     }
     
 	public void generateNeighborhoodExternalListCSVFile(List<NeighborhoodExternalInputDTO> neighborhoodNotFoundList, String fileName) {
@@ -243,6 +267,8 @@ public class NeighborhoodService {
     
 	public List<String[]> neighborhoodExternalListToCSVLines(List<NeighborhoodExternalInputDTO> neighborhoodNotFoundList) {
 		List<String[]> lines = new ArrayList<>();
+		
+		System.out.println("Quantidade de Bairros não encontrados: " + neighborhoodNotFoundList.size());
 		
         String[] header = {"DIM1","DIM2","DIM3","NOMBRE","CODIGOPAIS"};
         lines.add(header);
@@ -264,4 +290,13 @@ public class NeighborhoodService {
 		
 	}
 
+    public List<NeighborhoodExternalInputDTO> findByStateExternalId(List<NeighborhoodExternalInputDTO> list,Integer stateExternalCode) {
+        List<NeighborhoodExternalInputDTO> result = new ArrayList<>();
+        for(NeighborhoodExternalInputDTO obj : list){
+            if(obj.getStateExternalCode() == stateExternalCode){
+                result.add(obj);
+            }
+        }
+        return result;
+    }
 }
