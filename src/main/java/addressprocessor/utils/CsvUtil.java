@@ -1,14 +1,10 @@
 package addressprocessor.utils;
 
-import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
+import com.opencsv.*;
 import com.opencsv.exceptions.CsvException;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,6 +32,8 @@ public class CsvUtil {
         try {
             String fileFullName = directoryPath + fileName + ".csv";
 
+            System.out.println("Gerando arquivo CSV: " + fileFullName);
+
             File directory = new File(fileFullName).getParentFile();
             if (!directory.exists()) {
                 directory.mkdirs();
@@ -58,7 +56,7 @@ public class CsvUtil {
             for (String[] line : data) {
                 for (int i = 0; i < line.length; i++) {
                     if (line[i] != null) {
-                    	line[i] = line[i].replace("\"", "\"\"");  // Remove aspas duplas                       
+                    	line[i] = line[i].replace("\"", "\"");  // Remove aspas duplas
                     }
                 }
                 cw.writeNext(line);
@@ -77,12 +75,20 @@ public class CsvUtil {
         }
     }
 
-    public static List<String[]> readCsvFile(String fileName) {
+    public static List<String[]> readCsvFile(String fileName){
 
+        System.out.println("Lendo arquivo: " + fileName);
         String pathName = INPUT_BASE_PATH + fileName;
 
-        try (CSVReader reader = new CSVReader(new FileReader(pathName))) {
+        // Configura o parser para usar ; como separador e ' como delimitador
+        CSVParser parser = new CSVParserBuilder()
+                .withSeparator(';')
+                .withQuoteChar('\'')
+                .build();
 
+        try (CSVReader reader = new CSVReaderBuilder(new FileReader(pathName))
+                .withCSVParser(parser)
+                .build()) {
             List<String[]> lines = reader.readAll();
             return lines;
         } catch (IOException | CsvException e) {
@@ -91,12 +97,12 @@ public class CsvUtil {
         return null;
     }
 
-    public static List<String[]> readCsvFileWithFilter(String fileName) {
+    public static List<String[]> readCsvFileWithoutQuotes(String fileName){
 
+        System.out.println("Lendo arquivo: " + fileName);
         String pathName = INPUT_BASE_PATH + fileName;
 
         try (CSVReader reader = new CSVReader(new FileReader(pathName))) {
-
             List<String[]> lines = reader.readAll();
             return lines;
         } catch (IOException | CsvException e) {
@@ -104,6 +110,7 @@ public class CsvUtil {
         }
         return null;
     }
+
 
     public static void printCsvFile(String fileName){
         printCsvLines(Objects.requireNonNull(readCsvFile(fileName)));

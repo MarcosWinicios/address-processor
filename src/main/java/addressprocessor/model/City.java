@@ -19,7 +19,11 @@ public class City implements Serializable {
 
     private Integer stateId;
 
-    private Integer externalCode;
+    private Integer externalCityCode;
+
+    private Integer StateExternalCode;
+
+    private String countryCode;
 
     @Override
     public String toString() {
@@ -27,7 +31,9 @@ public class City implements Serializable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", stateId=" + stateId +
-                ", externalCode=" + externalCode +
+                ", externalCityCode=" + externalCityCode +
+                ", StateExternalCode=" + StateExternalCode +
+                ", countryCode='" + countryCode + '\'' +
                 '}';
     }
 }

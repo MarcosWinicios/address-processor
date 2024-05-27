@@ -10,6 +10,7 @@ public class ReadCsvFileNeighBorhoodToCompare {
 
     public static void main(String[] args) {
     	NeighborhoodService neighborhoodService = new NeighborhoodService();
+        /*
         System.out.println("Lendo arquivo com as Bairros Internos\n");
 
         String neighborhoodFileName = "input_tb_neighborhood.csv";
@@ -24,7 +25,7 @@ public class ReadCsvFileNeighBorhoodToCompare {
         System.out.println("neighborhoodList: " + neighborhoodList.size());
 
 //        cityService.printCityExternalObj(cityExternalInputDTOList);
-
+*/
         System.out.println("\n_______________________________________________\n");
         System.out.println("Lendo arquivo com os bairros Externos\n");
         String neighborhoodName = "tb_neighborhood_external.csv";
@@ -41,12 +42,14 @@ public class ReadCsvFileNeighBorhoodToCompare {
 
         System.out.println("neighborhoodExternalInputDTO: " + neighborhoodExternalInputDTOList.size());
 
-//        neighborhoodService.printNeighborhoodExternalInputDTOObj(neighborhoodExternalInputDTOList);
+        List<NeighborhoodExternalInputDTO> list = neighborhoodService.findByStateExternalId(neighborhoodExternalInputDTOList, 51);
+
+        neighborhoodService.printNeighborhoodExternalInputDTOObj(list);
 
 
         //--------------------
 //        List<Neighborhood> neighborhoodList = neighborhoodService.relateNeighborhoodToCities(cityExternalInputDTOList, neighborhoodExternalInputDTOList);
-
+/*
         List<NeighborhoodExternalInputDTO> neighborhoodNotFoundList = neighborhoodService.compareNeighboardExternalToInternal(neighborhoodList, neighborhoodExternalInputDTOList);
 
         System.gc();
@@ -58,7 +61,7 @@ public class ReadCsvFileNeighBorhoodToCompare {
 
         neighborhoodService.generateNeighborhoodExternalListCSVFile(neighborhoodNotFoundList);
         
-        
+        */
 //        neighborhoodService.generateNeighborhoodListCSVFile(neighborhoodList);
     }
 }

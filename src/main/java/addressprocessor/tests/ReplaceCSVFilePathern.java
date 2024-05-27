@@ -8,15 +8,16 @@ public class ReplaceCSVFilePathern {
 	
 	public static void main(String[] args) {
         // Caminho do arquivo CSV existente
-        String inputFileName = "input_tb_neighborhood.csv";
+        String inputFileName = "new_input_city_external.csv";
         
         // Lê o arquivo CSV existente
         System.out.println("Lendo arquivo");
+//        List<String[]> data = CsvUtil.readCsvFileWithoutQuotes(inputFileName);
         List<String[]> data = CsvUtil.readCsvFile(inputFileName);
 
         // Caminho do diretório e nome do novo arquivo
         
-        String outputFileName = "output_tb_neighborhood";
+        String outputFileName = "new_input_city_external";
 
         // Gera o novo CSV com o formato especificado
         System.out.println("Gerando arquivo");
