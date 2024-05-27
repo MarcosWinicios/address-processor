@@ -16,6 +16,7 @@ public class NeighborhoodExternalInputDTO {
     private Integer stateExternalCode;
     private Integer cityExternalCode;
     private String countryCode;
+    private String zipcode;
 
 
     public NeighborhoodExternalInputDTO(String[] line) {
@@ -24,6 +25,7 @@ public class NeighborhoodExternalInputDTO {
         this.stateExternalCode = Integer.parseInt(line[1]);
         this.cityExternalCode = Integer.parseInt(line[2]);
         this.countryCode = line[8];
+        this.zipcode = line[5];
     }
     
 //    public NeighborhoodExternalInputDTO(String[] line) {
@@ -93,6 +95,7 @@ public class NeighborhoodExternalInputDTO {
                 ", stateExternalCode=" + stateExternalCode +
                 ", cityExternalCode=" + cityExternalCode +
                 ", countryCode='" + countryCode + '\'' +
+                ", zipcode='" + zipcode + '\'' +
                 '}';
     }
 }

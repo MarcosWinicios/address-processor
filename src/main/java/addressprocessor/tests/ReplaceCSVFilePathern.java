@@ -8,7 +8,7 @@ public class ReplaceCSVFilePathern {
 	
 	public static void main(String[] args) {
         // Caminho do arquivo CSV existente
-        String inputFileName = "new_input_city_external.csv";
+        String inputFileName = "neighborhood_relation.csv";
         
         // Lê o arquivo CSV existente
         System.out.println("Lendo arquivo");
@@ -17,7 +17,7 @@ public class ReplaceCSVFilePathern {
 
         // Caminho do diretório e nome do novo arquivo
         
-        String outputFileName = "new_input_city_external";
+        String outputFileName = "new_neighborhood_relation";
 
         // Gera o novo CSV com o formato especificado
         System.out.println("Gerando arquivo");
