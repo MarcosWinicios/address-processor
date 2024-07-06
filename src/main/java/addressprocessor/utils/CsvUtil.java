@@ -5,14 +5,15 @@ import com.opencsv.exceptions.CsvException;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Component
 public class CsvUtil {
 
-    private static final String INPUT_BASE_PATH = "inputFiles/";
-    private static final String OUTPUT_BASE_PATH = "outputFiles/";
+    private static final String INPUT_BASE_PATH = "inputNewFiles/";
+    private static final String OUTPUT_BASE_PATH = "outputNewFiles/";
 
     public static String getInputBasePath(){
         return INPUT_BASE_PATH;
@@ -91,6 +92,42 @@ public class CsvUtil {
                 .build()) {
             List<String[]> lines = reader.readAll();
             return lines;
+        } catch (IOException | CsvException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static List<String[]> readCsvFileMX(String fileName){
+
+        System.out.println("Lendo arquivo: " + fileName);
+        String pathName = INPUT_BASE_PATH + fileName;
+
+        // Configura o parser para usar ; como separador e ' como delimitador
+        CSVParser parser = new CSVParserBuilder()
+                .withSeparator(';')
+                .withQuoteChar('\'')
+                .build();
+
+        List<String[]> filteredLines = new ArrayList<>();
+
+        try (CSVReader reader = new CSVReaderBuilder(new FileReader(pathName))
+                .withCSVParser(parser)
+                .build()) {
+
+            String[] nextLine;
+            int count = 0;
+            while ((nextLine = reader.readNext()) != null) {
+                if(count == 0){
+                    filteredLines.add(nextLine);
+                    count++;
+                }
+                // Verifica se o valor na coluna especificada corresponde ao valor de filtro
+                if (nextLine[8].equals("MX")) {
+                    filteredLines.add(nextLine);
+                }
+            }
+            return filteredLines;
         } catch (IOException | CsvException e) {
             e.printStackTrace();
         }
