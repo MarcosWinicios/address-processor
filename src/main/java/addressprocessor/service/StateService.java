@@ -6,7 +6,11 @@ import addressprocessor.utils.CsvUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class StateService {
@@ -48,7 +52,7 @@ public class StateService {
     
 
     public List<String[]> readCsvFile(String fileName){
-        return CsvUtil.readCsvFile(fileName);
+        return CsvUtil.readCsvFileWithoutQuotes(fileName);
     }
 
     public void printCsv(String fileName){
@@ -66,7 +70,7 @@ public class StateService {
         List<StateInputDTO> result = new ArrayList<>();
 
         int countClearMemory = 0;
-        for(int i = 1; i < stateLines.size(); i++){
+        for(int i = 0; i < stateLines.size(); i++){
             countClearMemory++;
             if(countClearMemory == memoryCount){
                 System.gc();
@@ -80,6 +84,13 @@ public class StateService {
         }
         return result;
     }
+
+    public List<StateInputDTO> csvToStateInputDTOFunctional(List<String[]> stateLines){
+        return stateLines.stream()
+                .map(StateInputDTO::new)
+                .collect(Collectors.toList());
+    }
+
 
     public void printStateInputDTOList(List<StateInputDTO> stateList){
         stateList.forEach( state -> {
