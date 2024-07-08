@@ -1,10 +1,9 @@
 package addressprocessor.tests;
 
-import addressprocessor.dto.input.CityExternalInputDTO;
 import addressprocessor.dto.input.StateInputDTO;
-import addressprocessor.model.City;
-import addressprocessor.service.CityService;
 import addressprocessor.service.StateService;
+import addressprocessor.utils.CsvUtil;
+import addressprocessor.utils.TestPerformanceUtil;
 
 import java.util.List;
 
@@ -13,16 +12,39 @@ public class CreateExternalCityFile {
     public static void main(String[] args) {
 
         // Lendo arquivo com os estados
-        String stateFileName = "tb_state_id_external_id.csv";
+        String stateFileName = "DIM1.csv";
         StateService stateService = new StateService();
 
-        var stateLines = stateService.readCsvFile(stateFileName);
-        List<StateInputDTO> stateInputDTOList = stateService.csvToStateInputDTO(stateLines);
+//        setTimeValues(System.nanoTime());
+        List<String[]> stateLines = stateService.readCsvFile(stateFileName);
+
+
+        TestPerformanceUtil.setTimeValues(System.nanoTime(), "csvToStateInputDTOFunctional");
+        List<StateInputDTO> stateInputDTOList = stateService.csvToStateInputDTOFunctional(stateLines);
+        TestPerformanceUtil.setTimeValues(System.nanoTime(), "csvToStateInputDTOFunctional");
+
+        System.out.println("Tamanho da lista 1: " + stateInputDTOList.size());
+
+        TestPerformanceUtil.setTimeValues(System.nanoTime(), "csvToStateInputDTO");
+        List<StateInputDTO> stateInputDTOList2 = stateService.csvToStateInputDTO(stateLines);
+        TestPerformanceUtil.setTimeValues(System.nanoTime(), "csvToStateInputDTO");
+
+        System.out.println("Tamanho da lista 2: " + stateInputDTOList2.size());
+
+        TestPerformanceUtil.printMethodsInAnalysis();
+        TestPerformanceUtil.printSlowerAndFasterMethod();
+        TestPerformanceUtil.resetMethodList();
+
+
+//        stateService.printStateFunctional(stateLines);
+
+
 
 //        stateService.printStateInputDTOList(stateInputDTOList);
 
+//        setTimeValues(System.nanoTime());
         //--------------
-
+        /*
         System.out.println("\n_______________________________________________\n");
         //Lendo arquivo com as cidades
         String cityFileName = "input_tb_city_external.csv";
@@ -48,5 +70,7 @@ public class CreateExternalCityFile {
 
         cityService.generateCityListCSVFile(cityList);
         cityService.generateCityExternalFile(cityList);
+        */
+
     }
 }
