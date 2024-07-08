@@ -2,7 +2,6 @@ package addressprocessor.tests;
 
 import addressprocessor.dto.input.StateInputDTO;
 import addressprocessor.service.StateService;
-import addressprocessor.utils.CsvUtil;
 import addressprocessor.utils.TestPerformanceUtil;
 
 import java.util.List;
@@ -37,7 +36,6 @@ public class CreateExternalCityFile {
 
 
 //        stateService.printStateFunctional(stateLines);
-
 
 
 //        stateService.printStateInputDTOList(stateInputDTOList);

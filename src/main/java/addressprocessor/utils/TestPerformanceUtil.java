@@ -3,8 +3,8 @@ package addressprocessor.utils;
 import addressprocessor.tools.PerformanceMethodData;
 
 import java.text.DecimalFormat;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Comparator;
+import java.util.TreeSet;
 
 public class TestPerformanceUtil {
     private static long startTime = 0;
