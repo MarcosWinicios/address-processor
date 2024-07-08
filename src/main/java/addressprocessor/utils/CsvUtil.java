@@ -6,8 +6,10 @@ import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 @Component
 public class CsvUtil {
@@ -141,6 +143,7 @@ public class CsvUtil {
 
         try (CSVReader reader = new CSVReader(new FileReader(pathName))) {
             List<String[]> lines = reader.readAll();
+            lines.remove(0);
             return lines;
         } catch (IOException | CsvException e) {
             e.printStackTrace();
@@ -153,13 +156,39 @@ public class CsvUtil {
         printCsvLines(Objects.requireNonNull(readCsvFile(fileName)));
     }
 
-    public static void printCsvLines(List<String[]> lines){
+    @Deprecated
+    public static void printCsvLinesOld(List<String[]> lines){
         for (String[] line : lines) {
             for (String field : line) {
                 System.out.print(field + " | ");
             }
             System.out.println(); // Pula para a próxima linha
         }
+    }
+
+    public static void printCsvLines(List<String[]> lines){
+
+
+        System.out.println("-------------");
+        IntStream.range(0, lines.size())
+                .mapToObj((index) -> { //Utilizar o mapToObj pois ao contrário do map(), aceita uma função Function. o Map só aceita UnaryOperation
+                    String[] array = lines.get(index);
+                    return "[" + index + "] = " + Arrays.toString(array);
+                })
+                .forEach(System.out::println);
+
+        /*Podem ser utilizados caso não queira printar os indices da Lista*/
+        /*
+        lines.stream()
+                .map((x) -> String.join(", ", x)
+                ).forEach(System.out::println);
+
+
+        lines.stream()
+                .map(Arrays::toString)
+                .forEach(System.out::println);
+
+         */
     }
 
 }
