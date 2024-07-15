@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 import java.util.*;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 @Component
 public class CsvUtil {
@@ -24,11 +23,29 @@ public class CsvUtil {
     }
 
     /**
+     * <b>Use this method when you want to get only the rows that contain a certain value in a certain column</b>
+     * @param fileName Name of the CSV file to be read
+     * @param filterValue Value to be used in the filter.
+     * @param indexPosition Position of the column where the <b>filterValue</b> value is located
+     */
+    public static List<String[]> readCsvFile(String fileName, String filterValue, int indexPosition){
+        return readCsvFileWithFilterByColumnValue(fileName, filterValue, indexPosition);
+    }
+
+    /**
+     * <b>Use this method when you want to get the entire contents of a CSV file</b>
+     * @param fileName Name of the CSV file to be read
+     */
+    public static List<String[]> readCsvFile(String fileName) {
+        return  readCsvFileWithFilterByColumnValue(fileName, null, -1);
+    }
+
+    /**
      * @param data          Informações que irão compor o conteúdo do arquivo CSV
      * @param directoryPath Diretório alvo onde o arquivo será salvo
      * @param fileName      Nome do arquivo a ser gerado
      */
-    public static String generateCsvFile(List<String[]> data, String directoryPath, String fileName) {
+    public static void generateCsvFile(List<String[]> data, String directoryPath, String fileName) {
 
         try {
             String fileFullName = directoryPath + fileName + ".csv";
@@ -69,79 +86,58 @@ public class CsvUtil {
 
             cw.close();
             fw.close();
-            return file.getAbsolutePath();
 
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
-    public static List<String[]> readCsvFile(String fileName){
+    //Usefull methods to print data
 
-        System.out.println("Lendo arquivo: " + fileName);
-        String pathName = INPUT_BASE_PATH + fileName;
-
-        // Configura o parser para usar ; como separador e ' como delimitador
-        CSVParser parser = new CSVParserBuilder()
-                .withSeparator(';')
-                .withQuoteChar('\'')
-                .build();
-
-        try (CSVReader reader = new CSVReaderBuilder(new FileReader(pathName))
-                .withCSVParser(parser)
-                .build()) {
-            List<String[]> lines = reader.readAll();
-            return lines;
-        } catch (IOException | CsvException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static void printCsvFile(String fileName){
+        printCsvLines(Objects.requireNonNull(readCsvFile(fileName)));
     }
 
-    /**
-     *
-     * @param fileName Input CSV file name
-     * @param filterValue Value to be used in the filter.
-     * @param indexPosition Position of the column where the <b>filterValue</b> value is located
-     * @return
-     */
-    public static List<String[]> readCsvFileWithFilterSemicolonSingleQuotes(String fileName, String filterValue, int indexPosition ){
+    public static void printCsvLines(List<String[]> lines){
 
-        System.out.println("Lendo arquivo: " + fileName);
-        String pathName = INPUT_BASE_PATH + fileName;
 
-        // Configura o parser para usar ; como separador e ' como delimitador
-        CSVParser parser = new CSVParserBuilder()
-                .withSeparator(',')
-                .withQuoteChar('\'')
-                .build();
+        System.out.println("-------------");
+        IntStream.range(0, lines.size())
+                .mapToObj((index) -> { //Utilizar o mapToObj pois ao contrário do map(), aceita uma função Function. o Map só aceita UnaryOperation
+                    String[] array = lines.get(index);
+                    return "[" + index + "] = " + Arrays.toString(array);
+                })
+                .forEach(System.out::println);
 
-        List<String[]> filteredLines = new ArrayList<>();
+        /*Podem ser utilizados caso não queira printar os indices da Lista*/
+        /*
+        lines.stream()
+                .map((x) -> String.join(", ", x)
+                ).forEach(System.out::println);
 
-        try (CSVReader reader = new CSVReaderBuilder(new FileReader(pathName))
-                .withCSVParser(parser)
-                .build()) {
 
-            String[] nextLine;
-            int count = 0;
-            while ((nextLine = reader.readNext()) != null) {
-                if(count == 0){ // Header File
-                    printLine(nextLine);
-//                    filteredLines.add(nextLine);
-                    count++;
-                }
-                // Verifica se o valor na coluna especificada corresponde ao valor de filtro
-                if (nextLine[indexPosition].equals(filterValue)) {
-                    filteredLines.add(nextLine);
-                }
+        lines.stream()
+                .map(Arrays::toString)
+                .forEach(System.out::println);
+
+         */
+    }
+
+    public static void printLine(String[] line){
+        System.out.println(String.join(", ", line));
+    }
+
+    @Deprecated
+    public static void printCsvLinesOld(List<String[]> lines){
+        for (String[] line : lines) {
+            for (String field : line) {
+                System.out.print(field + " | ");
             }
-
-            return filteredLines;
-        } catch (IOException | CsvException e) {
-            e.printStackTrace();
+            System.out.println(); // Pula para a próxima linha
         }
-        return null;
     }
+
+    //private methods
 
     private static String removeFileExtension(String fileName){
         int dotIndex = fileName.lastIndexOf('.');
@@ -153,50 +149,10 @@ public class CsvUtil {
         }
     }
 
-    public static List<String[]> readCsvFileGenericFormat(String fileName, String filterValue, int indexPosition){
-        fileName = removeFileExtension(fileName) + ".csv";
-        System.out.println("Lendo arquivo: " + fileName);
+    private static Map<String, Character> detectDelimiterAndSeparator(String fileName) {
 
-        String pathName = INPUT_BASE_PATH + fileName;
+        String pathName = getInputFilePath(fileName);
 
-        Map<String, Character> separatorAndDelimiter = detectDelimiterAndSeparator(fileName);
-
-        printFileFormat(separatorAndDelimiter);
-        // Configura o parser para usar ; como separador e ' como delimitador
-        CSVParser parser = new CSVParserBuilder()
-                .withSeparator(separatorAndDelimiter.get("separator"))
-                .withQuoteChar(separatorAndDelimiter.get("delimiter"))
-                .build();
-
-        List<String[]> filteredLines = new ArrayList<>();
-
-        try (CSVReader reader = new CSVReaderBuilder(new FileReader(pathName))
-                .withCSVParser(parser)
-                .build()) {
-
-            String[] nextLine;
-            int count = 0;
-            while ((nextLine = reader.readNext()) != null) {
-                if(count == 0){ // Header File
-                    printLine(nextLine);
-                    filteredLines.add(nextLine);
-                    count++;
-                }
-                // Verifica se o valor na coluna especificada corresponde ao valor de filtro
-                if (nextLine[indexPosition].equals(filterValue)) {
-                    filteredLines.add(nextLine);
-                }
-            }
-
-            return filteredLines;
-        } catch (IOException | CsvException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static Map<String, Character> detectDelimiterAndSeparator(String fileName) {
-        String pathName = INPUT_BASE_PATH + fileName;
         char[] possibleSeparators = {',', ';', '\t', '|', ' '};
         char[] possibleDelimiters = {'"', '\'', ' '};
         Map<String, Character> result = new HashMap<>();
@@ -237,65 +193,51 @@ public class CsvUtil {
         return result;
     }
 
+    private static List<String[]> readCsvFileWithFilterByColumnValue(String fileName, String filterValue, int indexPosition){
+        String pathName = getInputFilePath(fileName);
+        CSVParser parser = getParserFile(fileName);
 
-    public static List<String[]> readCsvFileWithoutQuotes(String fileName){
+        System.err.println("\n>> Lendo arquivo: " + fileName + "\n");
 
-        System.out.println("Lendo arquivo: " + fileName);
-        String pathName = INPUT_BASE_PATH + fileName;
-
-        try (CSVReader reader = new CSVReader(new FileReader(pathName))) {
+        try (CSVReader reader = new CSVReaderBuilder(new FileReader(pathName))
+                .withCSVParser(parser)
+                .build()) {
             List<String[]> lines = reader.readAll();
-            lines.remove(0);
-            return lines;
+
+            if( filterValue == null && indexPosition == -1){
+                return  lines;
+            }
+            return filterRowsFromCsvFiles(lines, filterValue, indexPosition);
         } catch (IOException | CsvException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-
-    public static void printCsvFile(String fileName){
-        printCsvLines(Objects.requireNonNull(readCsvFile(fileName)));
+    private static String getInputFilePath(String fileName){
+        return INPUT_BASE_PATH + removeFileExtension(fileName) + ".csv";
     }
 
-    @Deprecated
-    public static void printCsvLinesOld(List<String[]> lines){
-        for (String[] line : lines) {
-            for (String field : line) {
-                System.out.print(field + " | ");
-            }
-            System.out.println(); // Pula para a próxima linha
-        }
+    private static List<String[]> filterRowsFromCsvFiles(List<String[]> lines, String filterValue, int indexPosition){
+
+        return lines.stream()
+                .skip(1)
+                .filter(line -> line[indexPosition].equals(filterValue))
+                .toList();
     }
 
-    public static void printLine(String[] line){
-        System.out.println(String.join(", ", line));
+    private static CSVParser getParserFile(String fileName){
+        Map<String, Character> separatorAndDelimiter = detectDelimiterAndSeparator(fileName);
+
+        printFileFormat(separatorAndDelimiter);
+        return new CSVParserBuilder()
+                .withSeparator(separatorAndDelimiter.get("separator"))
+                .withQuoteChar(separatorAndDelimiter.get("delimiter"))
+                .build();
     }
-    public static void printCsvLines(List<String[]> lines){
 
-
-        System.out.println("-------------");
-        IntStream.range(0, lines.size())
-                .mapToObj((index) -> { //Utilizar o mapToObj pois ao contrário do map(), aceita uma função Function. o Map só aceita UnaryOperation
-                    String[] array = lines.get(index);
-                    return "[" + index + "] = " + Arrays.toString(array);
-                })
-                .forEach(System.out::println);
-
-        /*Podem ser utilizados caso não queira printar os indices da Lista*/
-        /*
-        lines.stream()
-                .map((x) -> String.join(", ", x)
-                ).forEach(System.out::println);
-
-
-        lines.stream()
-                .map(Arrays::toString)
-                .forEach(System.out::println);
-
-         */
+    private static  void printFileFormat(Map<String, Character> fileFormat){
+        System.err.println("\n>> Formater CSV File: " + fileFormat);
     }
-    public static  void printFileFormat(Map<String, Character> fileFormat){
-        System.err.println(fileFormat);
-    }
+
 }

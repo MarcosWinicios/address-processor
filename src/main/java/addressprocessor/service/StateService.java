@@ -6,11 +6,8 @@ import addressprocessor.utils.CsvUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 public class StateService {
@@ -52,7 +49,7 @@ public class StateService {
     
 
     public List<String[]> readCsvFile(String fileName){
-        return CsvUtil.readCsvFileWithoutQuotes(fileName);
+        return CsvUtil.readCsvFile(fileName);
     }
 
     public void printCsv(String fileName){

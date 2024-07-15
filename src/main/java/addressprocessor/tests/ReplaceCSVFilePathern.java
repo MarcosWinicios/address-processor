@@ -12,7 +12,7 @@ public class ReplaceCSVFilePathern {
         
         // Lê o arquivo CSV existente
         System.out.println("Lendo arquivo");
-        List<String[]> data = CsvUtil.readCsvFileWithoutQuotes(inputFileName);
+        List<String[]> data = CsvUtil.readCsvFile(inputFileName);
 //        List<String[]> data = CsvUtil.readCsvFile(inputFileName);
 
         // Caminho do diretório e nome do novo arquivo
