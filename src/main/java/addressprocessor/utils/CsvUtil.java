@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -25,8 +26,8 @@ import java.util.stream.IntStream;
 @Component
 public class CsvUtil {
 
-    private static final String INPUT_BASE_PATH = "inputNewFiles/";
-    private static final String OUTPUT_BASE_PATH = "outputNewFiles/";
+    private static final String INPUT_BASE_PATH = "inputFiles/";
+    private static final String OUTPUT_BASE_PATH = "outputMXFiles/";
 
     public static String getInputBasePath(){
         return INPUT_BASE_PATH;
@@ -218,10 +219,16 @@ public class CsvUtil {
                 .build()) {
             List<String[]> lines = reader.readAll();
 
+
             if( filterValue == null && indexPosition == -1){
                 return  lines;
             }
-            return filterRowsFromCsvFiles(lines, filterValue, indexPosition);
+            String[] header = lines.get(0);
+            List<String[]> result = new ArrayList<>();
+            result.add(header);
+            result.addAll(filterRowsFromCsvFiles(lines, filterValue, indexPosition));
+
+            return result;
         } catch (IOException | CsvException e) {
             e.printStackTrace();
         }
