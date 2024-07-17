@@ -1,14 +1,14 @@
 package addressprocessor.tests;
 
-import java.util.List;
-
 import addressprocessor.utils.CsvUtil;
 
-public class ReplaceCSVFilePathern {
+import java.util.List;
+
+public class ReplaceCSVFilePattern {
 	
 	public static void main(String[] args) {
         // Caminho do arquivo CSV existente
-        String inputFileName = "TC_ACTIVIDADES_BANXICO.csv";
+        String inputFileName = "tb_state.csv";
         
         // Lê o arquivo CSV existente
         System.out.println("Lendo arquivo");
