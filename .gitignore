@@ -34,7 +34,9 @@ build/
 
 outputFiles/
 inputFiles/
+inputMXFiles/
 inputNewFiles/
+inputUtf8Files/
 outputNewFiles/
 outputMXFiles/
-inputUtf8Files/
+outputAbsoluteFiles/
