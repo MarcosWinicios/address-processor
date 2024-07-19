@@ -1,5 +1,6 @@
 package addressprocessor.service;
 
+import addressprocessor.dto.input.StateCoreDTO;
 import addressprocessor.dto.input.StateInputDTO;
 import addressprocessor.model.State;
 import addressprocessor.utils.CsvUtil;
@@ -88,6 +89,20 @@ public class StateService {
                 .collect(Collectors.toList());
     }
 
+    public List<StateCoreDTO> csvToStateCoreDTO(List<String[]> stateLines){
+        return stateLines.stream()
+                .skip(1)
+                .filter(line -> (!"NO APLICA".equals(line[2])))
+                .map(StateCoreDTO::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<State> stateCoreDTOToState(List<StateCoreDTO> stateCoreDTOList){
+        return stateCoreDTOList.stream()
+                .map(State::new)
+                .collect(Collectors.toList());
+    }
+
 
     public void printStateInputDTOList(List<StateInputDTO> stateList){
         stateList.forEach( state -> {
@@ -96,4 +111,30 @@ public class StateService {
     }
 
 
+    public void generateStateCsvFile(List<State> stateList) {
+        List<String[]> data =  this.stateListToCsvLines(stateList);
+        CsvUtil.generateCsvFile(data, CsvUtil.getOutputBasePath(), "tb_state");
+    }
+
+    private List<String[]> stateListToCsvLines(List<State> stateList) {
+        System.out.println("Transformando lista de objetos em linhas csv\n\n");
+
+        List<String[]> result = new ArrayList<>();
+        String[] header = {"stte_code", "stte_name", "ctry_code"};
+        result.add(header);
+
+        var lines = stateList.stream()
+                .map((state) -> {
+                    return new String[]{
+                      state.getCode(),
+                      state.getName(),
+                      state.getCountryCode()
+                    };
+                })
+                .toList();
+
+        result.addAll(lines);
+        return result;
+
+    }
 }
