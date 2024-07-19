@@ -1,5 +1,6 @@
 package addressprocessor.model;
 
+import addressprocessor.dto.input.StateCoreDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,12 @@ public class State implements Serializable {
     private String name;
 
     private String countryCode;
+
+    public State(StateCoreDTO stateCoreDTO){
+        this.code = stateCoreDTO.getCode();
+        this.name = stateCoreDTO.getName();
+        this.countryCode = stateCoreDTO.getCountryCode();
+    }
 
     @Override
     public String toString() {
