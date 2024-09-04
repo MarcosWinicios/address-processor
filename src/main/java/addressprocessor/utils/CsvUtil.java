@@ -27,7 +27,7 @@ import java.util.stream.IntStream;
 public class CsvUtil {
 
     private static final String INPUT_BASE_PATH = "inputFiles/";
-    private static final String OUTPUT_BASE_PATH = "outputMXFiles/";
+    private static final String OUTPUT_BASE_PATH = "outputFiles/";
 
     public static String getInputBasePath(){
         return INPUT_BASE_PATH;
@@ -63,6 +63,8 @@ public class CsvUtil {
     public static void generateCsvFile(List<String[]> data, String directoryPath, String fileName) {
 
         try {
+            directoryPath = directoryPath.endsWith("/") ? directoryPath : directoryPath + "/";
+            fileName = (fileName.endsWith(".csv") ? fileName.replace(".csv", "") : fileName);
             String fileFullName = directoryPath + fileName + ".csv";
 
             System.out.println("Gerando arquivo CSV: " + fileFullName);
@@ -116,13 +118,13 @@ public class CsvUtil {
     public static void printCsvLines(List<String[]> lines){
 
 
-        System.out.println("-------------");
-        IntStream.range(0, lines.size())
-                .mapToObj((index) -> { //Utilizar o mapToObj pois ao contrário do map(), aceita uma função Function. o Map só aceita UnaryOperation
-                    String[] array = lines.get(index);
-                    return "[" + index + "] = " + Arrays.toString(array);
-                })
-                .forEach(System.out::println);
+//        System.out.println("-------------");
+//        IntStream.range(0, lines.size())
+//                .mapToObj((index) -> { //Utilizar o mapToObj pois ao contrário do map(), aceita uma função Function. o Map só aceita UnaryOperation
+//                    String[] array = lines.get(index);
+//                    return "[" + index + "] = " + Arrays.toString(array);
+//                })
+//                .forEach(System.out::println);
 
         /*Podem ser utilizados caso não queira printar os indices da Lista*/
         /*
@@ -130,12 +132,12 @@ public class CsvUtil {
                 .map((x) -> String.join(", ", x)
                 ).forEach(System.out::println);
 
-
+*/
         lines.stream()
                 .map(Arrays::toString)
                 .forEach(System.out::println);
 
-         */
+
     }
 
     public static void printLine(String[] line){
