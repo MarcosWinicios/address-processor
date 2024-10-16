@@ -23,6 +23,7 @@ public class State implements Serializable {
     private String countryCode;
 
     public State(StateCoreDTO stateCoreDTO){
+//        this.id = Integer.parseInt(stateCoreDTO.getId());
         this.code = stateCoreDTO.getCode();
         this.name = stateCoreDTO.getName();
         this.countryCode = stateCoreDTO.getCountryCode();

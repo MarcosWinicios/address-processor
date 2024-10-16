@@ -92,7 +92,7 @@ public class StateService {
     public List<StateCoreDTO> csvToStateCoreDTO(List<String[]> stateLines){
         return stateLines.stream()
                 .skip(1)
-                .filter(line -> (!"NO APLICA".equals(line[2])))
+//                .filter(line -> (!"NO APLICA".equals(line[2])))
                 .map(StateCoreDTO::new)
                 .collect(Collectors.toList());
     }
@@ -110,22 +110,27 @@ public class StateService {
         });
     }
 
-
-    public void generateStateCsvFile(List<State> stateList) {
-        List<String[]> data =  this.stateListToCsvLines(stateList);
-        CsvUtil.generateCsvFile(data, CsvUtil.getOutputBasePath(), "tb_state");
+    public String generateStateCsvFile(List<State> stateList){
+        return  generateStateCsvFile(stateList, "tb_state");
+    }
+    public String generateStateCsvFile(List<State> stateList, String fileName) {
+       List<String[]> data =  this.stateListToCsvLines(stateList);
+       CsvUtil.generateCsvFile(data, CsvUtil.getOutputBasePath(), fileName);
+       return  fileName;
     }
 
     private List<String[]> stateListToCsvLines(List<State> stateList) {
         System.out.println("Transformando lista de objetos em linhas csv\n\n");
 
         List<String[]> result = new ArrayList<>();
+//        String[] header = {"stte_id", "stte_code", "stte_name", "ctry_code"};
         String[] header = {"stte_code", "stte_name", "ctry_code"};
         result.add(header);
 
         var lines = stateList.stream()
                 .map((state) -> {
                     return new String[]{
+//                      state.getId().toString(),
                       state.getCode(),
                       state.getName(),
                       state.getCountryCode()

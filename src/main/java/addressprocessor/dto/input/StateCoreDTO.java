@@ -16,9 +16,9 @@ public class StateCoreDTO {
 
 
     public StateCoreDTO(String[] stateCoreLine){
-        this.id = stateCoreLine[1];
+//        this.id = stateCoreLine[0];
+        this.code = stateCoreLine[1];
         this.name = stateCoreLine[2];
-        this.code = stateCoreLine[5];
         this.countryCode = stateCoreLine[3];
     }
 
