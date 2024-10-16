@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
 @Component
 public class CsvUtil {
 
-    private static final String INPUT_BASE_PATH = "inputFiles/";
+    private static final String INPUT_BASE_PATH = "inputNewFiles/";
     private static final String OUTPUT_BASE_PATH = "outputFiles/";
 
     public static String getInputBasePath(){
@@ -37,6 +37,25 @@ public class CsvUtil {
         return OUTPUT_BASE_PATH;
     }
 
+
+    /**
+     * <b>Use this method when you want to get the entire contents of a CSV file</b>
+     * @param fileName Name of the CSV file to be read
+     */
+    public static List<String[]> readCsvFile(String fileName) {
+        return  readCsvFile(fileName, null, -1);
+    }
+
+    /**
+     * <b>Use this method when you want to get the entire contents of a CSV file</b>
+     * @param fileName Name of the CSV file to be read
+     * @param inputDirectoryPath Path directory of the CSV file to be read
+     * @return
+     */
+    public static List<String[]> readCsvFile(String fileName, String inputDirectoryPath) {
+        return  readCsvFile(fileName, null, -1, inputDirectoryPath);
+    }
+
     /**
      * <b>Use this method when you want to get only the rows that contain a certain value in a certain column</b>
      * @param fileName Name of the CSV file to be read
@@ -44,15 +63,11 @@ public class CsvUtil {
      * @param indexPosition Position of the column where the <b>filterValue</b> value is located
      */
     public static List<String[]> readCsvFile(String fileName, String filterValue, int indexPosition){
-        return readCsvFileWithFilterByColumnValue(fileName, filterValue, indexPosition);
+        return readCsvFile(fileName, filterValue, indexPosition, INPUT_BASE_PATH);
     }
 
-    /**
-     * <b>Use this method when you want to get the entire contents of a CSV file</b>
-     * @param fileName Name of the CSV file to be read
-     */
-    public static List<String[]> readCsvFile(String fileName) {
-        return  readCsvFileWithFilterByColumnValue(fileName, null, -1);
+    public static List<String[]> readCsvFile(String fileName, String filterValue, int indexPosition, String inputDirectoryPath) {
+        return  readCsvFileWithFilterByColumnValue(fileName, filterValue, indexPosition, inputDirectoryPath);
     }
 
     /**
@@ -60,7 +75,7 @@ public class CsvUtil {
      * @param directoryPath Diretório alvo onde o arquivo será salvo
      * @param fileName      Nome do arquivo a ser gerado
      */
-    public static void generateCsvFile(List<String[]> data, String directoryPath, String fileName) {
+    public static String generateCsvFile(List<String[]> data, String directoryPath, String fileName) {
 
         try {
             directoryPath = directoryPath.endsWith("/") ? directoryPath : directoryPath + "/";
@@ -103,6 +118,8 @@ public class CsvUtil {
 
             cw.close();
             fw.close();
+
+            return fileFullName;
 
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
@@ -211,15 +228,27 @@ public class CsvUtil {
     }
 
     private static List<String[]> readCsvFileWithFilterByColumnValue(String fileName, String filterValue, int indexPosition){
-        String pathName = getInputFilePath(fileName);
+        return  readCsvFileWithFilterByColumnValue(fileName, filterValue, indexPosition, INPUT_BASE_PATH);
+    }
+
+    private static List<String[]> readCsvFileWithFilterByColumnValue(String fileName, String filterValue, int indexPosition, String inputPathName){
+        String pathName = getInputFilePath(fileName, inputPathName);
         CSVParser parser = getParserFile(fileName);
 
-        System.err.println("\n>> Lendo arquivo: " + fileName + "\n");
+        System.err.println("\n>> Lendo arquivo: " + fileName + " do diretório: " + pathName + "\n");
+
+        pathName = replaceWindowsPath(pathName);
+
 
         try (CSVReader reader = new CSVReaderBuilder(new FileReader(pathName))
                 .withCSVParser(parser)
                 .build()) {
-            List<String[]> lines = reader.readAll();
+//            try{
+//                FileReader fileReader = new FileReader(pathName);
+//                CSVReaderBuilder csvReaderBuilder = new CSVReaderBuilder(fileReader);
+//                CSVReader reader = csvReaderBuilder.withCSVParser(parser).build();
+
+                List<String[]> lines = reader.readAll();
 
 
             if( filterValue == null && indexPosition == -1){
@@ -238,7 +267,14 @@ public class CsvUtil {
     }
 
     private static String getInputFilePath(String fileName){
-        return INPUT_BASE_PATH + removeFileExtension(fileName) + ".csv";
+        return getInputFilePath(fileName, INPUT_BASE_PATH);
+    }
+
+    private static String getInputFilePath(String fileName, String inputFilePath){
+        if(!inputFilePath.endsWith("/")){
+            inputFilePath.concat("/");
+        }
+        return inputFilePath + removeFileExtension(fileName) + ".csv";
     }
 
     private static List<String[]> filterRowsFromCsvFiles(List<String[]> lines, String filterValue, int indexPosition){
@@ -261,6 +297,10 @@ public class CsvUtil {
 
     private static  void printFileFormat(Map<String, Character> fileFormat){
         System.err.println("\n>> Formater CSV File: " + fileFormat);
+    }
+
+    private static String replaceWindowsPath(String path){
+        return path.replace("\\", "/");
     }
 
 }
