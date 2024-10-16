@@ -32,7 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 
-outputFiles/
 inputFiles/
 inputMXFiles/
 inputNewFiles/
@@ -40,3 +39,7 @@ inputUtf8Files/
 outputNewFiles/
 outputMXFiles/
 outputAbsoluteFiles/
+outputUtf8Files/
+outputFilesWithId/
+outputFilesOLD/
+outputFiles/
