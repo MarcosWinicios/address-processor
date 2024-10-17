@@ -10,8 +10,8 @@ import java.util.List;
 
 public class AddIdColumnUtil {
 
-    private static final String INPUT_BASE_PATH = "inputFiles/";
-    private static final String OUTPUT_BASE_PATH = "outputFilesWithId/";
+    private static final String INPUT_BASE_PATH = "outputFiles/auxFiles/";
+    private static final String OUTPUT_BASE_PATH = "outputFiles/finalFiles/";
 
     public static String getInputBasePath(){
         return INPUT_BASE_PATH;
@@ -25,7 +25,7 @@ public class AddIdColumnUtil {
         execute(inputFileName, INPUT_BASE_PATH);
     }
     public static void execute(String inputFileName, String inputDirectoryPath){
-//        System.out.println("\nINICIANDO ADIÇÃO DA COLUNA COM IDs\n");
+        System.out.println("\nINICIANDO ADIÇÃO DA COLUNA COM IDs\n");
 
         List<String[]> originalData = CsvUtil.readCsvFile(inputFileName, inputDirectoryPath);
 

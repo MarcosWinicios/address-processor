@@ -37,7 +37,8 @@ public class GenerateStateFile {
 
         String generatedFileName =  stateService.generateStateCsvFile(stateList);
 
-        AddIdColumnUtil.execute(generatedFileName, CsvUtil.getOutputBasePath() );
+
+        AddIdColumnUtil.execute(generatedFileName, AddIdColumnUtil.getInputBasePath());
 
     }
 }
