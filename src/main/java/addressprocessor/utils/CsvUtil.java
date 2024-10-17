@@ -26,8 +26,8 @@ import java.util.stream.IntStream;
 @Component
 public class CsvUtil {
 
-    private static final String INPUT_BASE_PATH = "inputNewFiles/";
-    private static final String OUTPUT_BASE_PATH = "outputFiles/";
+    private static final String INPUT_BASE_PATH = "inputFiles/coreFiles/";
+    private static final String OUTPUT_BASE_PATH = "outputFiles/auxFiles";
 
     public static String getInputBasePath(){
         return INPUT_BASE_PATH;
@@ -67,6 +67,7 @@ public class CsvUtil {
     }
 
     public static List<String[]> readCsvFile(String fileName, String filterValue, int indexPosition, String inputDirectoryPath) {
+        System.out.println(inputDirectoryPath);
         return  readCsvFileWithFilterByColumnValue(fileName, filterValue, indexPosition, inputDirectoryPath);
     }
 
@@ -184,8 +185,12 @@ public class CsvUtil {
     }
 
     private static Map<String, Character> detectDelimiterAndSeparator(String fileName) {
+        return detectDelimiterAndSeparator(fileName, getInputBasePath());
+    }
 
-        String pathName = getInputFilePath(fileName);
+    private static Map<String, Character> detectDelimiterAndSeparator(String fileName, String pathFile) {
+
+        String pathName = getInputFilePath(fileName, pathFile);
 
         char[] possibleSeparators = {',', ';', '\t', '|', ' '};
         char[] possibleDelimiters = {'"', '\'', ' '};
@@ -233,7 +238,7 @@ public class CsvUtil {
 
     private static List<String[]> readCsvFileWithFilterByColumnValue(String fileName, String filterValue, int indexPosition, String inputPathName){
         String pathName = getInputFilePath(fileName, inputPathName);
-        CSVParser parser = getParserFile(fileName);
+        CSVParser parser = getParserFile(fileName, inputPathName);
 
         System.err.println("\n>> Lendo arquivo: " + fileName + " do diretório: " + pathName + "\n");
 
@@ -286,7 +291,11 @@ public class CsvUtil {
     }
 
     private static CSVParser getParserFile(String fileName){
-        Map<String, Character> separatorAndDelimiter = detectDelimiterAndSeparator(fileName);
+        return getParserFile(fileName, INPUT_BASE_PATH);
+    }
+
+    private static CSVParser getParserFile(String fileName, String pathFile){
+        Map<String, Character> separatorAndDelimiter = detectDelimiterAndSeparator(fileName, pathFile);
 
         printFileFormat(separatorAndDelimiter);
         return new CSVParserBuilder()
